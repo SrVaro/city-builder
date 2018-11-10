@@ -4,23 +4,49 @@ using UnityEngine;
 
 public class Casilla : MonoBehaviour {
 
-    private int posX;
-    private int posY;
+    private float posX;
+    private float posZ;
 
-    public Casilla(int  posX, int posY)
-    {
-        this.posX = posX;
-        this.posY = posY;
+    public bool ocupada = false;
+
+    // Use this for initialization
+    void Awake () {
+
+
+        this.posX = transform.position.x;
+        this.posZ = transform.position.z;
+
     }
-
-	// Use this for initialization
-	void Start () {
-
-  
-	}
     	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    public void crearFicha(GameObject ficha)
+    {
+        Debug.Log(posX + ", " + posZ);
+
+        Instantiate(ficha, new Vector3(posX, 2, posZ), transform.rotation);
+
+        ocupada = true;
+
+    }
+
+    void OnMouseDown()
+    {
+        
+    }
+
+
+    
+
+    public bool estaOcupado()
+    {
+        return ocupada;
+    }
+
+    
+
+
 }

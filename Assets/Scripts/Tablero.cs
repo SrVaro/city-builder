@@ -4,18 +4,39 @@ using UnityEngine;
 
 public class Tablero : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    private int contaminacion;
 
-        for (int i = 0; i < 4; i++)
+    public GameObject celda;
+
+    public GameObject parque;
+
+    public GameObject industria;
+
+    public int numCol = 0;
+
+    public int numFil = 0;
+
+    private Casilla[,] matrizCasillas;
+
+
+    // Use this for initialization
+    void Start () {
+
+        matrizCasillas = new Casilla[numFil, numCol];
+
+        for (int i = 0; i < numFil; i++)
         {
-            for (int j = 0; j < 4; j++)
+            for (int j = 0; j < numCol; j++)
             {
-                Casilla = new Casilla();
+                Casilla casilla = Instantiate(celda, new Vector3(i * 2f, 0, j * 2f), celda.transform.rotation).GetComponent<Casilla>();
 
+                matrizCasillas[i, j] = casilla;
 
             }
         }
+
+
+        matrizCasillas[0, 0].crearFicha(industria);
 
 
     }
