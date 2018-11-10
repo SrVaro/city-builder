@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Casilla : MonoBehaviour {
 
+    private int posMatrizX;
+    private int posMatrizZ;
+
     private float posX;
     private float posZ;
 
@@ -41,11 +44,6 @@ public class Casilla : MonoBehaviour {
         ocupada = true;
     }
 
-    public GameObject getFicha()
-    {
-        return ficha;
-    }
-
     void OnMouseDown()
     {
         if(ocupada == false)
@@ -54,9 +52,14 @@ public class Casilla : MonoBehaviour {
 
             mat.color = Color.green;
 
+
+
             tablero.crearFichaEnCasillaSeleccionada(this);
-           
+
+
+        
         }
+
         else
         {
             mat = renderer.material;
@@ -66,6 +69,7 @@ public class Casilla : MonoBehaviour {
         }
 
     }
+
 
     void OnMouseUp()
     {
@@ -85,10 +89,35 @@ public class Casilla : MonoBehaviour {
     {
         this.tablero = tablero;
     }
-    
+
+    public GameObject getFicha()
+    {
+        return ficha;
+    }
+
+    public void setPosicionMatriz(int posMatrizX, int posMatrizZ)
+    {
+        this.posMatrizX = posMatrizX;
+
+        this.posMatrizZ = posMatrizZ;
+
+    }
+
+    public int getPosicionMatrizX()
+    {
+        return this.posMatrizX;
+        
+    }
+
+    public int getPosicionMatrizZ()
+    {
+        return this.posMatrizZ;
+
+    }
 
 
-    
+
+
 
 
 

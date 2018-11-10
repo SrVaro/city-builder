@@ -22,6 +22,8 @@ public class Tablero : MonoBehaviour {
 
     private Casilla[,] matrizCasillas;
 
+    public string nombreEscena;
+
 
 
     // Use this for initialization
@@ -35,19 +37,24 @@ public class Tablero : MonoBehaviour {
             {
                 Casilla casilla = Instantiate(celda, new Vector3(i * 2f, 0, j * 2f), celda.transform.rotation).GetComponent<Casilla>();
 
+                casilla.setPosicionMatriz(i, j);
+
                 casilla.setTablero(this);
 
                 matrizCasillas[i, j] = casilla;
 
             }
         }
-
-
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Application.LoadLevel(nombreEscena);
+        }
 
 
 
@@ -68,6 +75,8 @@ public class Tablero : MonoBehaviour {
 
    public void crearFichaEnCasillaSeleccionada(Casilla casilla)
     {
+
+
         switch (fichaSeleccionada)
         {
             case 0:
@@ -77,20 +86,111 @@ public class Tablero : MonoBehaviour {
 
             case 1:
 
-                casilla.crearFicha(edificio);
+                if (hayIndustriasAdyacentes(casilla) == false)
+                {
+                    casilla.crearFicha(edificio);
+                }
                 break;
+
 
             case 2:
 
-                casilla.crearFicha(industria);
+                if (hayEdificiosAdyacentes(casilla) == false)
+                {
+                    casilla.crearFicha(industria);
+                }
                 break;
 
             case 3:
 
-                casilla.crearFicha(parque);
+                if(hayParquesAdyacentes(casilla) == false)
+                {
+                    casilla.crearFicha(parque);
+                }
                 break;
 
         }
+
+    }
+
+    public bool hayIndustriasAdyacentes(Casilla casilla)
+    {
+
+        Vector2Int[] v = new Vector2Int[4];
+        v[0] = new Vector2Int(casilla.getPosicionMatrizX(), casilla.getPosicionMatrizZ() + 1);
+        v[1] = new Vector2Int(casilla.getPosicionMatrizX(), casilla.getPosicionMatrizZ() - 1);
+        v[2] = new Vector2Int(casilla.getPosicionMatrizX() + 1, casilla.getPosicionMatrizZ());
+        v[3] = new Vector2Int(casilla.getPosicionMatrizX() - 1, casilla.getPosicionMatrizZ());
+
+
+        for (int i=0; i< v.Length; i++)
+        {
+            if (v[i].x > 0 && v[i].x < numFil && v[i].y > 0 && v[i].y < numCol) 
+            {
+                Casilla cas = matrizCasillas[v[i].x, v[i].y];
+
+                if (cas.getFicha() != null && cas.getFicha().tag == "Industria")
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
+    }
+
+    public bool hayEdificiosAdyacentes(Casilla casilla)
+    {
+
+        Vector2Int[] v = new Vector2Int[4];
+        v[0] = new Vector2Int(casilla.getPosicionMatrizX(), casilla.getPosicionMatrizZ() + 1);
+        v[1] = new Vector2Int(casilla.getPosicionMatrizX(), casilla.getPosicionMatrizZ() - 1);
+        v[2] = new Vector2Int(casilla.getPosicionMatrizX() + 1, casilla.getPosicionMatrizZ());
+        v[3] = new Vector2Int(casilla.getPosicionMatrizX() - 1, casilla.getPosicionMatrizZ());
+
+
+        for (int i = 0; i < v.Length; i++)
+        {
+            if (v[i].x > 0 && v[i].x < numFil && v[i].y > 0 && v[i].y < numCol) 
+            {
+                Casilla cas = matrizCasillas[v[i].x, v[i].y];
+
+                if (cas.getFicha() != null && cas.getFicha().tag == "Edificio")
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
+    }
+
+    public bool hayParquesAdyacentes(Casilla casilla)
+    {
+
+        Vector2Int[] v = new Vector2Int[4];
+        v[0] = new Vector2Int(casilla.getPosicionMatrizX(), casilla.getPosicionMatrizZ() + 1);
+        v[1] = new Vector2Int(casilla.getPosicionMatrizX(), casilla.getPosicionMatrizZ() - 1);
+        v[2] = new Vector2Int(casilla.getPosicionMatrizX() + 1, casilla.getPosicionMatrizZ());
+        v[3] = new Vector2Int(casilla.getPosicionMatrizX() - 1, casilla.getPosicionMatrizZ());
+
+
+        for (int i = 0; i < v.Length; i++)
+        {
+            if (v[i].x > 0 && v[i].x < numFil && v[i].y > 0 && v[i].y < numCol)
+            {
+                Casilla cas = matrizCasillas[v[i].x, v[i].y];
+
+                if (cas.getFicha() != null && cas.getFicha().tag == "Parque")
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
 
     }
 
