@@ -11,7 +11,7 @@ public class Tablero : MonoBehaviour {
         {
             for (int j = 0; j < 4; j++)
             {
-                Casilla = new Casilla();
+                Casilla c = new Casilla(i ,j);
 
 
             }

@@ -13,6 +13,8 @@ public class Casilla : MonoBehaviour {
         this.posY = posY;
     }
 
+	
+
 	// Use this for initialization
 	void Start () {
 
