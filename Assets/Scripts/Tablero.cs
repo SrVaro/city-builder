@@ -53,7 +53,7 @@ public class Tablero : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            Camera.main.transform.RotateAround(transform.right, transform.position, 90);
+            Camera.main.transform.RotateAround(transform.up, transform.position, 90);
         }
 
         if (Input.GetKeyDown(KeyCode.R))
