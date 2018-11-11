@@ -46,18 +46,15 @@ public class Casilla : MonoBehaviour {
 
     void OnMouseDown()
     {
+
+        Debug.Log(posMatrizX + " " + posMatrizZ);
         if(ocupada == false)
         {
             mat = renderer.material;
 
             mat.color = Color.green;
 
-
-
             tablero.crearFichaEnCasillaSeleccionada(this);
-
-
-        
         }
 
         else
@@ -65,7 +62,6 @@ public class Casilla : MonoBehaviour {
             mat = renderer.material;
 
             mat.color = Color.red;
-
         }
 
     }
@@ -100,19 +96,16 @@ public class Casilla : MonoBehaviour {
         this.posMatrizX = posMatrizX;
 
         this.posMatrizZ = posMatrizZ;
-
     }
 
     public int getPosicionMatrizX()
     {
-        return this.posMatrizX;
-        
+        return this.posMatrizX;    
     }
 
     public int getPosicionMatrizZ()
     {
         return this.posMatrizZ;
-
     }
 
 

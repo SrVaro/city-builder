@@ -122,7 +122,6 @@ GameObject:
   m_Component:
   - component: {fileID: 35625321}
   - component: {fileID: 35625320}
-  - component: {fileID: 35625322}
   m_Layer: 0
   m_Name: Logica
   m_TagString: Untagged
@@ -142,9 +141,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   celda: {fileID: 1360084933632110, guid: 196ae2c57ad41a9419cf428b4847023b, type: 2}
-  edificio: {fileID: 1794833201847908, guid: ac37cf0a64e0915429074c136f07d9f3, type: 2}
-  parque: {fileID: 1208377559221430, guid: 5acd8435d7ee9204b90dc1e9aace8318, type: 2}
-  industria: {fileID: 1312785240365984, guid: 037df6a7f459852488487bd465f14e17, type: 2}
+  edificio: {fileID: 1116308824644382, guid: ac37cf0a64e0915429074c136f07d9f3, type: 2}
+  parque: {fileID: 1471441217362654, guid: 5acd8435d7ee9204b90dc1e9aace8318, type: 2}
+  industria: {fileID: 1640148677929450, guid: 037df6a7f459852488487bd465f14e17, type: 2}
+  turbina: {fileID: 1891904192456810, guid: ab0f8ef99fbd67b40a142574c556049f, type: 2}
+  rocas: {fileID: 1715569742200904, guid: 01cec11dd1ce1f64f84cf1761be785a8, type: 2}
   numCol: 3
   numFil: 3
   nombreEscena: SampleScene
@@ -161,18 +162,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &35625322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 35625319}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fef4792ed4f4e8c479f70cb5891ef22f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  edificio: {fileID: 100002, guid: 72ff946ff5cdc004fb058f1bf55c4b63, type: 3}
 --- !u!1 &122063419
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,7 +319,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 170076733}
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 63, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
