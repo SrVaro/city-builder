@@ -7,9 +7,9 @@ public class Tablero : MonoBehaviour {
 
     private int fichaSeleccionada = 0;
 
-    private int contaminacionActual = 0;
+    public int contaminacion = 0;
 
-    public GameObject celda, edificio, parque, industria, turbina, rocas;
+    public GameObject celda, edificio1, edificio2, edificio3, parque, industria, turbina, rocas;
 
     public int numCol, numFil = 0;
 
@@ -17,15 +17,19 @@ public class Tablero : MonoBehaviour {
 
     public string nombreEscena;
 
-    public Text Texto;
+    public Text textoContaminacion, textoBotonParques, textoBotonTurbinas;
 
-    public int numeroEdificiosDisponibles , numeroIndustriasDisponibles, numeroParquesDisponibles, numeroTurbinaDisponibles, numeroRocasDisponibles = 0;
+    public int  numeroParquesDisponibles, numeroTurbinasDisponibles = 0;
 
 
     // Use this for initialization
     void Start () {
 
-        Texto.text = "Contaminacion: " + contaminacionActual;
+        textoContaminacion.text = "Contaminacion: " + contaminacion;
+
+        textoBotonParques.text = numeroParquesDisponibles.ToString();
+
+        textoBotonTurbinas.text = numeroTurbinasDisponibles.ToString();
 
         matrizCasillas = new Casilla[numFil, numCol];
 
@@ -47,6 +51,11 @@ public class Tablero : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Camera.main.transform.RotateAround(transform.right, transform.position, 90);
+        }
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             Application.LoadLevel(nombreEscena);
@@ -74,46 +83,37 @@ public class Tablero : MonoBehaviour {
 
             case 1:
 
-                if (hayIndustriasAdyacentes(casilla) == false)
-                {
-                    casilla.crearFicha(edificio);
-                }
-                break;
-                
-            case 2:
-
-                if (hayEdificiosAdyacentes(casilla) == false)
-                {
-                    casilla.crearFicha(industria);
-                }
-                break;
-
-            case 3:
-
                 if(hayParquesAdyacentes(casilla) == false && numeroParquesDisponibles > 0)
                 {
+
+                    contaminacion -= hayEdificiosAdyacentes(casilla);
+                    contaminacion -= hayIndustriasAdyacentes(casilla) * 2;
+                    textoContaminacion.text = "Contaminacion: " + contaminacion;
                     casilla.crearFicha(parque);
                     numeroParquesDisponibles--;
+                    textoBotonParques.text = numeroParquesDisponibles.ToString();
                 }
                 break;
 
-            case 4:
+            case 2:
 
-                if(hayEdificiosAdyacentes(casilla) == false)
+                if(hayEdificiosAdyacentes(casilla) == 0 && numeroTurbinasDisponibles > 0)
                 {
                     casilla.crearFicha(turbina);
+                    numeroTurbinasDisponibles--;
+                    textoBotonTurbinas.text = numeroTurbinasDisponibles.ToString();
+                    contaminacion -= 3;
+                    textoContaminacion.text = "Contaminacion: " + contaminacion;
                 }
                 break;
 
-            case 5:
-
-                casilla.crearFicha(rocas);
-                break;
         }
     }
 
-    public bool hayIndustriasAdyacentes(Casilla casilla)
+    public int hayIndustriasAdyacentes(Casilla casilla)
     {
+        int numeroIndustriasAdyacentes = 0;
+
         Vector2Int[] v = new Vector2Int[4];
         v[0] = new Vector2Int(casilla.getPosicionMatrizX(), casilla.getPosicionMatrizZ() + 1);
         v[1] = new Vector2Int(casilla.getPosicionMatrizX(), casilla.getPosicionMatrizZ() - 1);
@@ -127,19 +127,19 @@ public class Tablero : MonoBehaviour {
             {
                 Casilla cas = matrizCasillas[v[i].x, v[i].y];
 
-                Debug.Log(v[i]);
-
                 if (cas.getFicha() != null && cas.getFicha().tag == "Industria")
                 {
-                    return true;
+                    numeroIndustriasAdyacentes++;
                 }
             }
         }
-        return false;
+        return numeroIndustriasAdyacentes;
     }
 
-    public bool hayEdificiosAdyacentes(Casilla casilla)
+    public int hayEdificiosAdyacentes(Casilla casilla)
     {
+        int numeroEdificiosAdyacentes = 0;
+
         Vector2Int[] v = new Vector2Int[4];
         v[0] = new Vector2Int(casilla.getPosicionMatrizX(), casilla.getPosicionMatrizZ() + 1);
         v[1] = new Vector2Int(casilla.getPosicionMatrizX(), casilla.getPosicionMatrizZ() - 1);
@@ -154,11 +154,11 @@ public class Tablero : MonoBehaviour {
 
                 if (cas.getFicha() != null && cas.getFicha().tag == "Edificio")
                 {
-                    return true;
+                    numeroEdificiosAdyacentes++;
                 }
             }
         }
-        return false;
+        return numeroEdificiosAdyacentes;
     }
 
     public bool hayParquesAdyacentes(Casilla casilla)

@@ -47,21 +47,11 @@ public class Casilla : MonoBehaviour {
     void OnMouseDown()
     {
 
-        Debug.Log(posMatrizX + " " + posMatrizZ);
+        Debug.Log(posMatrizX + ", " + posMatrizZ);
         if(ocupada == false)
         {
-            mat = renderer.material;
-
-            mat.color = Color.green;
 
             tablero.crearFichaEnCasillaSeleccionada(this);
-        }
-
-        else
-        {
-            mat = renderer.material;
-
-            mat.color = Color.red;
         }
 
     }
@@ -70,9 +60,6 @@ public class Casilla : MonoBehaviour {
     void OnMouseUp()
     {
 
-        mat = renderer.material;
-
-        mat.color = Color.white;
     }
 
 
