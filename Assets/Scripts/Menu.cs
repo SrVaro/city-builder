@@ -10,8 +10,33 @@ public class Menu : MonoBehaviour {
         Application.Quit();
     }
 
-    public void seleccionarNivel(string s)
+    public void menuPrincipal()
     {
-        SceneManager.LoadScene("Nivel"+s, LoadSceneMode.Single);
+        SceneManager.LoadScene("menu");
+    }
+
+    public void creditos()
+    {
+        SceneManager.LoadScene("creditos");
+    }
+
+    public void pantallaSeleccion()
+    {
+        SceneManager.LoadScene("seleccionarNivel");
+    }
+
+    public void cargarNivel1()
+    {
+        SceneManager.LoadScene("Nivel1");
+    }
+
+    public void cargarNivel2()
+    {
+        SceneManager.LoadScene("Nivel2");
+    }
+
+    public void cargarNivel3()
+    {
+        SceneManager.LoadScene("Nivel3");
     }
 }

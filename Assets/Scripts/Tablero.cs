@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Tablero : MonoBehaviour {
@@ -8,6 +10,8 @@ public class Tablero : MonoBehaviour {
     private int fichaSeleccionada = 0;
 
     public int contaminacion = 0;
+
+    public Text mText;
 
     public GameObject celda, edificio1, edificio2, edificio3, parque, industria, turbina, rocas;
 
@@ -17,7 +21,7 @@ public class Tablero : MonoBehaviour {
 
     public string nombreEscena;
 
-    public Text textoContaminacion, textoBotonParques, textoBotonTurbinas;
+    public Text textoBotonParques, textoBotonTurbinas;
 
     public int  numeroParquesDisponibles, numeroTurbinasDisponibles = 0;
 
@@ -25,7 +29,7 @@ public class Tablero : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        textoContaminacion.text = "Contaminacion: " + contaminacion;
+        mText.text = "Contaminacion: " + contaminacion;
 
         textoBotonParques.text = numeroParquesDisponibles.ToString();
 
@@ -88,10 +92,18 @@ public class Tablero : MonoBehaviour {
 
                     contaminacion -= hayEdificiosAdyacentes(casilla);
                     contaminacion -= hayIndustriasAdyacentes(casilla) * 2;
-                    textoContaminacion.text = "Contaminacion: " + contaminacion;
+                    mText.text = "Contaminacion: " + contaminacion;
                     casilla.crearFicha(parque);
                     numeroParquesDisponibles--;
                     textoBotonParques.text = numeroParquesDisponibles.ToString();
+
+                    if(numeroParquesDisponibles == 0 && numeroTurbinasDisponibles == 0 && contaminacion == 0) {
+                        SceneManager.LoadScene("win");
+                    }
+                    if (numeroParquesDisponibles == 0 && numeroTurbinasDisponibles == 0 && contaminacion > 0)
+                    {
+                        SceneManager.LoadScene("GameOver");
+                    }
                 }
                 break;
 
@@ -103,7 +115,16 @@ public class Tablero : MonoBehaviour {
                     numeroTurbinasDisponibles--;
                     textoBotonTurbinas.text = numeroTurbinasDisponibles.ToString();
                     contaminacion -= 3;
-                    textoContaminacion.text = "Contaminacion: " + contaminacion;
+                    mText.text = "Contaminacion: " + contaminacion;
+
+                    if (numeroParquesDisponibles == 0 && numeroTurbinasDisponibles == 0 && contaminacion == 0)
+                    {
+                        SceneManager.LoadScene("win");
+                    }
+                    if (numeroParquesDisponibles == 0 && numeroTurbinasDisponibles == 0 && contaminacion > 0)
+                    {
+                        SceneManager.LoadScene("GameOver");
+                    }
                 }
                 break;
 
