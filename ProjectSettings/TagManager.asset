@@ -9,6 +9,7 @@ TagManager:
   - Edificio
   - Turbina
   - Rocas
+  - Musica
   layers:
   - Default
   - TransparentFX

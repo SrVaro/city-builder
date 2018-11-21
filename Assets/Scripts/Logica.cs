@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Tablero : MonoBehaviour {
+public class Logica : MonoBehaviour {
 
     private int fichaSeleccionada = 0;
 
@@ -29,6 +29,7 @@ public class Tablero : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
+        
         mText.text = "Contaminacion: " + contaminacion;
 
         textoBotonParques.text = numeroParquesDisponibles.ToString();
@@ -45,7 +46,7 @@ public class Tablero : MonoBehaviour {
 
                 casilla.setPosicionMatriz(i, j);
 
-                casilla.setTablero(this);
+                casilla.setLogica(this);
 
                 matrizCasillas[i, j] = casilla;
             }
@@ -98,11 +99,11 @@ public class Tablero : MonoBehaviour {
                     textoBotonParques.text = numeroParquesDisponibles.ToString();
 
                     if(numeroParquesDisponibles == 0 && numeroTurbinasDisponibles == 0 && contaminacion == 0) {
-                        SceneManager.LoadScene("win");
+                        StartCoroutine(cambioEscena("win"));
                     }
                     if (numeroParquesDisponibles == 0 && numeroTurbinasDisponibles == 0 && contaminacion > 0)
                     {
-                        SceneManager.LoadScene("GameOver");
+                        StartCoroutine(cambioEscena("GameOver"));
                     }
                 }
                 break;
@@ -119,11 +120,11 @@ public class Tablero : MonoBehaviour {
 
                     if (numeroParquesDisponibles == 0 && numeroTurbinasDisponibles == 0 && contaminacion == 0)
                     {
-                        SceneManager.LoadScene("win");
+                        StartCoroutine(cambioEscena("win"));
                     }
                     if (numeroParquesDisponibles == 0 && numeroTurbinasDisponibles == 0 && contaminacion > 0)
                     {
-                        SceneManager.LoadScene("GameOver");
+                        StartCoroutine(cambioEscena("GameOver"));
                     }
                 }
                 break;
@@ -208,5 +209,14 @@ public class Tablero : MonoBehaviour {
     public Casilla getCasilla( int posMatrizX, int posMatrizZ )
     {
         return matrizCasillas[posMatrizX, posMatrizZ];
+    }
+
+    IEnumerator cambioEscena(string escena)
+    {
+        yield return new WaitForSeconds(2);
+
+        SceneManager.LoadScene(escena);
+
+
     }
 }

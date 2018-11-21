@@ -5,11 +5,11 @@ using UnityEngine;
 public class Nivel2 : MonoBehaviour 
 {
 
-	public Tablero tablero;
+	public Logica logica;
 	public GameObject industria;
 
 	public void Start()
 	{
-		tablero.getCasilla(1, 1).crearFicha(industria);
+        logica.getCasilla(1, 1).crearFicha(industria);
 	}
 }

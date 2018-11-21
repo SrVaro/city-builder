@@ -18,9 +18,11 @@ public class Casilla : MonoBehaviour {
 
     public static bool pulsada;
 
-    private Tablero tablero;
+    private Logica logica;
 
     private MeshRenderer renderer;
+
+    
 
     // Use this for initialization
     void Awake () {
@@ -51,7 +53,7 @@ public class Casilla : MonoBehaviour {
         if(ocupada == false)
         {
 
-            tablero.crearFichaEnCasillaSeleccionada(this);
+            logica.crearFichaEnCasillaSeleccionada(this);
         }
 
     }
@@ -68,9 +70,9 @@ public class Casilla : MonoBehaviour {
         return ocupada;
     }
 
-    public void setTablero(Tablero tablero)
+    public void setLogica(Logica logica)
     {
-        this.tablero = tablero;
+        this.logica = logica;
     }
 
     public GameObject getFicha()
