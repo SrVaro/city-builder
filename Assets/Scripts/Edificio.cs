@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class Edificio : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    private Logica instanciaLogica;
+
+    public int ContaminacionEdificio;
+
+    // Use this for initialization
+    void Awake()
+    {
+        instanciaLogica = Logica.instancia;
+
+        instanciaLogica.setContaminacion(instanciaLogica.getContaminacion() + ContaminacionEdificio);
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 }

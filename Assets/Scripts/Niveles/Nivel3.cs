@@ -13,7 +13,7 @@ public class Nivel3 : MonoBehaviour {
 
     public void Start()
 	{
-		logica.getCasilla(3,3).crearFicha(industria);
+        logica.getCasilla(3,3).crearFicha(industria);
         logica.getCasilla(2, 2).crearFicha(roca);
 
         logica.getCasilla(0, 1).crearFicha(edificio1);

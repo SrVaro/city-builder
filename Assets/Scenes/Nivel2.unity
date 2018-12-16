@@ -1193,19 +1193,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 267e46b1a6665fa4f98f0a8e93dcfcc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  contaminacion: 8
+  contaminacion: 0
   mText: {fileID: 1261612167}
   celda: {fileID: 1582378996316828, guid: 3990ec9c1a37bde4680c3c0191154b94, type: 2}
   edificio1: {fileID: 1170612628049062, guid: 5347714206032c048984d317ed621786, type: 2}
   edificio2: {fileID: 1524792551945560, guid: 74b69cb4e4ab2764a8cb6d21735582f3, type: 2}
   edificio3: {fileID: 1905530202985728, guid: 26947406fa443454b867f20c019a7e86, type: 2}
-  parque: {fileID: 1084484773462332, guid: af1ab836ef43e2e4da6c5976f89199f5, type: 2}
+  jardin: {fileID: 1084484773462332, guid: af1ab836ef43e2e4da6c5976f89199f5, type: 2}
   industria: {fileID: 1657882348161284, guid: 84780778e34d0ae4f84b134ee27d38a9, type: 2}
   turbina: {fileID: 1798931501360192, guid: bc7a451bb9ec5704e8dc594edb1d1d3e, type: 2}
   rocas: {fileID: 1666833944814220, guid: d8efe6463622d3846aa153227d6cb013, type: 2}
   numCol: 3
   numFil: 3
-  nombreEscena: Nivel2
   textoBotonParques: {fileID: 1705338977}
   textoBotonTurbinas: {fileID: 307350691}
   numeroParquesDisponibles: 4
@@ -1221,7 +1220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d06958e72eab3724c80ee34f6b873815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tablero: {fileID: 1887196763}
+  logica: {fileID: 1887196763}
   industria: {fileID: 1657882348161284, guid: 84780778e34d0ae4f84b134ee27d38a9, type: 2}
 --- !u!4 &1887196765
 Transform:

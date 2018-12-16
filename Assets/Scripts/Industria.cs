@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class Industria : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    private Logica instanciaLogica;
+
+    public int contaminacionIndustria;
+
+    // Use this for initialization
+    void Awake()
+    {
+        instanciaLogica = Logica.instancia;
+
+        instanciaLogica.setContaminacion(instanciaLogica.getContaminacion() + contaminacionIndustria);
+    }
 	
 	// Update is called once per frame
 	void Update () {

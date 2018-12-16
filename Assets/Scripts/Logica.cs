@@ -1,11 +1,14 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Xml.Serialization;
+using System.IO;
+
 
 public class Logica : MonoBehaviour {
+
+    public static Logica instancia;
 
     private int fichaSeleccionada = 0;
 
@@ -13,25 +16,31 @@ public class Logica : MonoBehaviour {
 
     public Text mText;
 
-    public GameObject celda, edificio1, edificio2, edificio3, parque, industria, turbina, rocas;
+    public GameObject celda, edificio1, edificio2, edificio3, jardin, industria, turbina, rocas;
 
     public int numCol, numFil = 0;
 
     private Casilla[,] matrizCasillas;
 
-    public string nombreEscena;
-
     public Text textoBotonParques, textoBotonTurbinas;
 
     public int  numeroParquesDisponibles, numeroTurbinasDisponibles = 0;
 
+    void Awake()
+    {
+        if (instancia == null)
+        {
+            instancia = this;
+        }
+        else if (instancia != this)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Use this for initialization
-    void Start () {
-
-        
-        mText.text = "Contaminacion: " + contaminacion;
-
+    void Start()
+    {
         textoBotonParques.text = numeroParquesDisponibles.ToString();
 
         textoBotonTurbinas.text = numeroTurbinasDisponibles.ToString();
@@ -46,30 +55,10 @@ public class Logica : MonoBehaviour {
 
                 casilla.setPosicionMatriz(i, j);
 
-                casilla.setLogica(this);
-
                 matrizCasillas[i, j] = casilla;
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Camera.main.transform.RotateAround(transform.up, transform.position, 90);
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Application.LoadLevel(nombreEscena);
-        }
-    }
-
-    public string fichaPosterior(int posMatrizX, int posMatrizZ)
-    {   
-        return null;
+       
     }
 
     public void seleccionarFicha(int tipoFicha)
@@ -88,48 +77,53 @@ public class Logica : MonoBehaviour {
 
             case 1:
 
-                if(hayParquesAdyacentes(casilla) == false && numeroParquesDisponibles > 0)
-                {
-
-                    contaminacion -= hayEdificiosAdyacentes(casilla);
-                    contaminacion -= hayIndustriasAdyacentes(casilla) * 2;
-                    mText.text = "Contaminacion: " + contaminacion;
-                    casilla.crearFicha(parque);
-                    numeroParquesDisponibles--;
-                    textoBotonParques.text = numeroParquesDisponibles.ToString();
-
-                    if(numeroParquesDisponibles == 0 && numeroTurbinasDisponibles == 0 && contaminacion == 0) {
-                        StartCoroutine(cambioEscena("win"));
-                    }
-                    if (numeroParquesDisponibles == 0 && numeroTurbinasDisponibles == 0 && contaminacion > 0)
-                    {
-                        StartCoroutine(cambioEscena("GameOver"));
-                    }
-                }
+                crearJardin(casilla);
                 break;
 
             case 2:
 
-                if(hayEdificiosAdyacentes(casilla) == 0 && numeroTurbinasDisponibles > 0)
-                {
-                    casilla.crearFicha(turbina);
-                    numeroTurbinasDisponibles--;
-                    textoBotonTurbinas.text = numeroTurbinasDisponibles.ToString();
-                    contaminacion -= 3;
-                    mText.text = "Contaminacion: " + contaminacion;
-
-                    if (numeroParquesDisponibles == 0 && numeroTurbinasDisponibles == 0 && contaminacion == 0)
-                    {
-                        StartCoroutine(cambioEscena("win"));
-                    }
-                    if (numeroParquesDisponibles == 0 && numeroTurbinasDisponibles == 0 && contaminacion > 0)
-                    {
-                        StartCoroutine(cambioEscena("GameOver"));
-                    }
-                }
+                crearTurbina(casilla);
                 break;
 
         }
+
+        comprobarVictoria();
+    }
+
+
+    public void crearJardin(Casilla casilla)
+    {
+        if (hayParquesAdyacentes(casilla) == false && numeroParquesDisponibles > 0)
+        {
+            casilla.crearJardin(jardin, hayEdificiosAdyacentes(casilla), hayIndustriasAdyacentes(casilla));
+            numeroParquesDisponibles--;
+            textoBotonParques.text = numeroParquesDisponibles.ToString();
+
+        }
+    }
+
+    public void crearTurbina(Casilla casilla)
+    {
+        if (hayEdificiosAdyacentes(casilla) == 0 && numeroTurbinasDisponibles > 0)
+        {
+            casilla.crearTurbina(turbina);
+            numeroTurbinasDisponibles--;
+            textoBotonTurbinas.text = numeroTurbinasDisponibles.ToString();
+        }
+    }
+
+    public void comprobarVictoria()
+    {
+
+        if (numeroParquesDisponibles == 0 && numeroTurbinasDisponibles == 0 && contaminacion <= 0)
+        {
+            StartCoroutine(cambioEscena("win"));
+        }
+        if (numeroParquesDisponibles == 0 && numeroTurbinasDisponibles == 0 && contaminacion > 0)
+        {
+            StartCoroutine(cambioEscena("GameOver"));
+        }
+
     }
 
     public int hayIndustriasAdyacentes(Casilla casilla)
@@ -206,17 +200,37 @@ public class Logica : MonoBehaviour {
         return false;
     }
 
-    public Casilla getCasilla( int posMatrizX, int posMatrizZ )
+    public void Save(string path)
     {
-        return matrizCasillas[posMatrizX, posMatrizZ];
+        var serializer = new XmlSerializer(typeof(Logica));
+        using (var stream = new FileStream(path, FileMode.Create))
+        {
+            serializer.Serialize(stream, this);
+        }
     }
 
     IEnumerator cambioEscena(string escena)
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.5f);
 
         SceneManager.LoadScene(escena);
-
-
     }
+
+    public Casilla getCasilla(int posMatrizX, int posMatrizZ)
+    {
+        return matrizCasillas[posMatrizX, posMatrizZ];
+    }
+
+    public int getContaminacion()
+    {
+        return contaminacion;
+    }
+
+    public void setContaminacion(int nuevaContaminacion)
+    {
+        mText.text = "Contaminacion: " + nuevaContaminacion;
+        this.contaminacion = nuevaContaminacion;
+    }
+
+
 }

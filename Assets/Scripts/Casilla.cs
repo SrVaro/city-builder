@@ -1,78 +1,72 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Xml.Serialization;
+using System.IO;
 
 public class Casilla : MonoBehaviour {
 
+    
     private int posMatrizX;
-    private int posMatrizZ;
 
-    private float posX;
-    private float posZ;
+    private int posMatrizZ;
+    
+    private float posX, posZ;
 
     private GameObject ficha;
 
-    public bool ocupada = false;
+    private bool ocupada = false;
 
-    private Material mat;
-
-    public static bool pulsada;
-
-    private Logica logica;
-
-    private MeshRenderer renderer;
-
-    
+    private Logica instanciaLogica;
 
     // Use this for initialization
-    void Awake () {
+    void Awake()
+    {
+        instanciaLogica = Logica.instancia;
 
         this.posX = transform.position.x;
         this.posZ = transform.position.z;
-
-        renderer = GetComponentInChildren<MeshRenderer>();
-
     }
     	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public void crearJardin(GameObject ficha, int numeroEdificiosAdyacentes, int numeroIndustriasAdyacentes)
+    {
+        this.ficha  = Instantiate(ficha, new Vector3(posX, 1f, posZ), transform.rotation);
+
+        Jardin jardin = ficha.GetComponent<Jardin>();
+
+        jardin.setLogica(instanciaLogica);
+
+        jardin.setNumeroEdificiosAdyacentes(numeroEdificiosAdyacentes);
+
+        jardin.setNumeroIndustriasAdyacentes(numeroIndustriasAdyacentes);
+       
+        this.ocupada = true;
+    }
+
+    public void crearTurbina(GameObject ficha)
+    {
+        this.ficha = Instantiate(ficha, new Vector3(posX, 1f, posZ), transform.rotation);
+
+        this.ocupada = true;
+    }
 
     public void crearFicha(GameObject ficha)
     {
-        this.ficha  = Instantiate(ficha, new Vector3(posX, 1f, posZ), transform.rotation);
-    
-        ocupada = true;
+        this.ficha = Instantiate(ficha, new Vector3(posX, 1f, posZ), transform.rotation);
+
+        this.ocupada = true;
     }
+
 
     void OnMouseDown()
     {
-
-        Debug.Log(posMatrizX + ", " + posMatrizZ);
         if(ocupada == false)
         {
-
-            logica.crearFichaEnCasillaSeleccionada(this);
+            instanciaLogica.crearFichaEnCasillaSeleccionada(this);
         }
-
     }
-
-
-    void OnMouseUp()
-    {
-
-    }
-
 
     public bool estaOcupado()
     {
         return ocupada;
-    }
-
-    public void setLogica(Logica logica)
-    {
-        this.logica = logica;
     }
 
     public GameObject getFicha()
@@ -96,6 +90,9 @@ public class Casilla : MonoBehaviour {
     {
         return this.posMatrizZ;
     }
+
+ 
+
 
 
 
